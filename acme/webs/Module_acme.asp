@@ -416,7 +416,7 @@ function reload_Soft_Center() {
 											</div>
 											<div class="SimpleNote">
 												<li>Let's Encrypt是2015年三季度成立的数字证书认证机构，旨在推广互联网无所不在的加密连接，为安全网站提供免费的SSL/TLS证书。
-													<li>本插件使用acme.sh，通过dns_api方式申请ssl证书，目前支持阿里DNS(万网)、Ddnspod、CloudXNS <a type="button" style="cursor:pointer" href="https://raw.githubusercontent.com/koolshare/merlin_acme/master/Changelog.txt" target="_blank"><em>【<u>插件更新日志</u>】</em></a></li>
+													<li>本插件使用acme.sh，通过dns_api方式申请ssl证书，目前支持阿里DNS(万网)、Ddnspod、CloudXNS <a type="button" style="cursor:pointer" href="https://github.com/sadoneli/merlin380-acme/blob/master/Changelog.txt" target="_blank"><em>【<u>插件更新日志</u>】</em></a></li>
 											</div>
 											<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3" class="FormTable">
 												<thead>
