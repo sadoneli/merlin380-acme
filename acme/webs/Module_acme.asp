@@ -221,7 +221,6 @@ function push_data(obj) {
 		dataType: 'text',
 		data: $.param(obj),
 		success: function(response) {
-			basic_action = 1;
 			showKPLoadingBar();
 			noChange = 0;
 			setTimeout("checkCmdRet();", 500);
@@ -329,14 +328,7 @@ function LoadingACMEProgress(seconds) {
 		$("#loading_block2").html("<li><font color='#ffcc00'><a href='http://www.koolshare.cn' target='_blank'></font>Let's Encrypt工作有问题？请来我们的<font color='#ffcc00'>论坛www.koolshare.cn</font>反应问题...</font></li>");
 	} else {
 		$("#loading_block2").html("<font color='#ffcc00'>-----------------------------------------------------------------------------------------------------------------------------------");
-		if (basic_action == 1) {
-			E("loading_block3").innerHTML = "向申请Let's Encrypt ssl证书..."
-		} else if (basic_action == 2) {
-			E("loading_block3").innerHTML = "证书续期 ..."
-		} else if (basic_action == 3) {
-			E("loading_block3").innerHTML = "删除证书 ..."
-		} else if (basic_action == 4) {
-		}
+		E("loading_block3").innerHTML = "Let's Encrypt 插件运行日志:"
 	}
 }
 
