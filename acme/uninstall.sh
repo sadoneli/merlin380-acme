@@ -5,3 +5,4 @@ rm -rf /koolshare/acme
 rm -rf /koolshare/scripts/acme_config.sh
 rm -rf /koolshare/webs/Module_acme.asp
 rm -rf /koolshare/res/icon-acme.png
+rm -rf /koolshare/init.d/*acme.sh

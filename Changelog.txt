@@ -1,5 +1,8 @@
 Koolshare Asuswrt-Merlin Let's Encrypt Changelog
 ===========================================
+1.5
+   - fix	修复日志不显示
+
 1.1 - 1.4
    - update	一些小的调整。
 
