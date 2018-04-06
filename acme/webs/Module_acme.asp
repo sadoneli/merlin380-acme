@@ -82,6 +82,14 @@ function init() {
 	conf_to_obj();
 	update_visibility();
 	get_cert_info();
+	hook_event();
+}
+
+function hook_event(){
+	$("#log_content2").click(
+	function() {
+		x = -1;
+	});
 }
 
 function get_cert_info() {

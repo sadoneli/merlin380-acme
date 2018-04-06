@@ -7,29 +7,31 @@ alias echo_date='echo 【$(TZ=UTC-8 date -R +%Y年%m月%d日\ %X)】:'
 mkdir -p /jffs/ssl
 
 start_issue(){
-	case $acme_provider in
+	case "$acme_provider" in
 	1)
 		# ali_dns
+		echo_date 使用阿里dns接口申请证书... >> $LOGFILE
 		export Ali_Key="$acme_ali_arg1"
 		export Ali_Secret="$acme_ali_arg2"
 		dnsapi=dns_ali
 		;;
 	2)
 		# dnspod
+		echo_date 使用dnspod接口申请证书... >> $LOGFILE
 		export DP_Id="$acme_dp_arg1"
 		export DP_key="$acme_dp_arg2"
 		dnsapi=dns_dp
 		;;
 	3)
 		# cloudxns
+		echo_date 使用cloudxns接口申请证书... >> $LOGFILE
 		export Ali_Key="$acme_xns_arg1"
 		export Ali_Secret="$acme_xns_arg2"
 		dnsapi=dns_cx
 		;;
 	esac
-	
-	cd $acme_root
-	./acme.sh --home "$acme_root" --issue --dns $dnsapi -d $acme_domain -d $acme_subdomain.$acme_domain
+	sleep 1
+	$acme_root/acme.sh --home "$acme_root" --issue --dns $dnsapi -d $acme_domain -d $acme_subdomain.$acme_domain
 }
 
 install_cert(){
@@ -72,8 +74,8 @@ apply_now(){
 	echo_date 开始为$acme_domain申请证书！ >> $LOGFILE
 	echo_date 证书申请过程可能会持续3分钟，请不要关闭或刷新本网页！ >> $LOGFILE
 	sleep 2
-	start_issue >> $LOGFILE
-	if [ "$?" != "0" ];then
+	start_issue >> $LOGFILE 2>&1
+	if [ "$?" == "1" ];then
 		echo_date 证书申请失败，请检查插件配置、域名等是否正确！！ >> $LOGFILE
 		echo_date 清理相关残留并关闭插件！！ >> $LOGFILE
 		rm -rf "$acme_domain" > /dev/null 2>&1
