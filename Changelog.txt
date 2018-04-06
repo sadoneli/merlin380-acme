@@ -1,6 +1,6 @@
 Koolshare Asuswrt-Merlin Let's Encrypt Changelog
 ===========================================
-1.6
+1.6 - 1.7
    - fix	脚本问题
 
 1.5

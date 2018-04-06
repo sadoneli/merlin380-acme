@@ -2,7 +2,7 @@
 source /koolshare/scripts/base.sh
 eval `dbus export acme`
 acme_root="/koolshare/acme"
-LOGFILE=acme_run.log
+LOGFILE="/tmp/acme_run.log"
 alias echo_date='echo 【$(TZ=UTC-8 date -R +%Y年%m月%d日\ %X)】:'
 mkdir -p /jffs/ssl
 
