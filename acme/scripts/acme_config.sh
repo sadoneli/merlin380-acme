@@ -11,27 +11,37 @@ start_issue(){
 	1)
 		# ali_dns
 		echo_date 使用阿里dns接口申请证书... >> $LOGFILE
-		export Ali_Key="$acme_ali_arg1"
-		export Ali_Secret="$acme_ali_arg2"
+		#export Ali_Key="$acme_ali_arg1"
+		#export Ali_Secret="$acme_ali_arg2"
+		sed -i '/Ali_Key/d' /koolshare/acme/account.conf
+		sed -i '/Ali_Secret/d' /koolshare/acme/account.conf
+		echo -e "Ali_Key='$acme_ali_arg1'\nAli_Secret='$acme_ali_arg2'" >> /koolshare/acme/account.conf
 		dnsapi=dns_ali
 		;;
 	2)
 		# dnspod
 		echo_date 使用dnspod接口申请证书... >> $LOGFILE
-		export DP_Id="$acme_dp_arg1"
-		export DP_key="$acme_dp_arg2"
+		#export DP_Id="$acme_dp_arg1"
+		#export DP_Key="$acme_dp_arg2"
+		sed -i '/DP_Id/d' /koolshare/acme/account.conf
+		sed -i '/DP_Key/d' /koolshare/acme/account.conf
+		echo -e "DP_Id='$acme_dp_arg1'\nDP_Key='$acme_dp_arg2'" >> /koolshare/acme/account.conf
 		dnsapi=dns_dp
 		;;
 	3)
 		# cloudxns
 		echo_date 使用cloudxns接口申请证书... >> $LOGFILE
-		export Ali_Key="$acme_xns_arg1"
-		export Ali_Secret="$acme_xns_arg2"
+		#export CX_Key="$acme_xns_arg1"
+		#export CX_Secret="$acme_xns_arg2"
+		sed -i '/CX_Key/d' /koolshare/acme/account.conf
+		sed -i '/CX_Secret/d' /koolshare/acme/account.conf
+		echo -e "CX_Key='$acme_xns_arg1'\nCX_Secret='$acme_xns_arg2'" >> /koolshare/acme/account.conf
 		dnsapi=dns_cx
 		;;
 	esac
 	sleep 1
-	$acme_root/acme.sh --home "$acme_root" --issue --dns $dnsapi -d $acme_domain -d $acme_subdomain.$acme_domain
+	cd $acme_root
+	./acme.sh --home "$acme_root" --issue --dns $dnsapi -d $acme_domain -d $acme_subdomain.$acme_domain
 }
 
 install_cert(){
