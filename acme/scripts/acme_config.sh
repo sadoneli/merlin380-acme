@@ -76,7 +76,8 @@ check_md5(){
 }
 
 check_cert(){
-	SUB=`openssl x509 -text -in "$acme_domain"/fullchain.cer|grep -A 1 "Subject Alternative Name"|tail -n1|cut -d "," -f1|cut -d ":" -f2|cut -d "." -f1`
+	#SUB=`openssl x509 -text -in "$acme_domain"/fullchain.cer|grep -A 1 "Subject Alternative Name"|tail -n1|cut -d "," -f1|cut -d ":" -f2|cut -d "." -f1`
+	SUB=`openssl x509 -text -in fullchain.cer | grep -A 1 "Subject Alternative Name"|tail -n1|sed 's/,//g'|sed 's/DNS://g'|sed "s/$acme_domain//g"|sed 's/\.//g'`
 	EXPIRE=`openssl x509 -text -in "$acme_domain"/fullchain.cer|grep "Not After"|sed 's/Not After ://g'|sed 's/^[ \t]*//g'`
 }
 
