@@ -56,7 +56,20 @@ start_issue(){
 
 install_cert(){
 	cd $acme_root
+	# install to jffs for httpd
 	./acme.sh --home "$acme_root" --installcert -d $acme_domain --keypath /jffs/ssl/key.pem --fullchainpath /jffs/ssl/cert.pem --reloadcmd "service restart_httpd"
+}
+
+install_aicloud_cert(){
+	# install to /tmp/etc for aicloud
+	aicloud_enable=`mvram get aicloud_enable`
+	./acme.sh --home "$acme_root" --installcert -d $acme_domain --keypath /tmp/etc/key.pem --fullchainpath /tmp/etc/cert.pem
+	cat /tmp/etc/key.pem > /tmp/etc/server.pem
+	echo "" \ >> /etc/server.pem
+	cat /tmp/etc/cert.pem >> /tmp/etc/server.pem
+	if [ "$aicloud_enable" == "1" ];then
+		service restart_webdav
+	fi
 }
 
 force_renew(){
@@ -121,6 +134,7 @@ start)
 		# detect domain folder first
 		cd $acme_root
 		if [ -d "$acme_domain" ] && [ -f "$acme_domain/$acme_domain.key" ] && [ -f "$acme_domain/fullchain.cer" ];then
+			install_aicloud_cert
 			check_md5
 			if [ "$md5sum_cer_jffs"x = "$md5sum_cer_acme"x ] && [ "$md5sum_key_jffs"x = "$md5sum_key_acme"x ];then
 				logger "检测到Let's Encrypt插件开启，且证书安装正确，添加证书更新定时任务"
@@ -181,6 +195,7 @@ start)
 						echo_date 安装证书会重启路由器web服务，安装完成后需要重新登录路由器 >> $LOGFILE
 						echo_date 安装中，，，请等待页面自动刷新！ >> $LOGFILE
 						echo XU6J03M7 >> $LOGFILE
+						install_aicloud_cert
 						install_cert
 					fi
 				else
