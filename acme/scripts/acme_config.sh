@@ -10,9 +10,7 @@ start_issue(){
 	case "$acme_provider" in
 	1)
 		# ali_dns
-		echo_date 使用阿里dns接口申请证书... >> $LOGFILE
-		#export Ali_Key="$acme_ali_arg1"
-		#export Ali_Secret="$acme_ali_arg2"
+		echo_date 使用Aliyun dns接口申请证书... >> $LOGFILE
 		sed -i '/Ali_Key/d' /koolshare/acme/account.conf
 		sed -i '/Ali_Secret/d' /koolshare/acme/account.conf
 		echo -e "Ali_Key='$acme_ali_arg1'\nAli_Secret='$acme_ali_arg2'" >> /koolshare/acme/account.conf
@@ -20,9 +18,7 @@ start_issue(){
 		;;
 	2)
 		# dnspod
-		echo_date 使用dnspod接口申请证书... >> $LOGFILE
-		#export DP_Id="$acme_dp_arg1"
-		#export DP_Key="$acme_dp_arg2"
+		echo_date 使用Dnspod接口申请证书... >> $LOGFILE
 		sed -i '/DP_Id/d' /koolshare/acme/account.conf
 		sed -i '/DP_Key/d' /koolshare/acme/account.conf
 		echo -e "DP_Id='$acme_dp_arg1'\nDP_Key='$acme_dp_arg2'" >> /koolshare/acme/account.conf
@@ -30,13 +26,27 @@ start_issue(){
 		;;
 	3)
 		# cloudxns
-		echo_date 使用cloudxns接口申请证书... >> $LOGFILE
-		#export CX_Key="$acme_xns_arg1"
-		#export CX_Secret="$acme_xns_arg2"
+		echo_date 使用CloudXNS接口申请证书... >> $LOGFILE
 		sed -i '/CX_Key/d' /koolshare/acme/account.conf
 		sed -i '/CX_Secret/d' /koolshare/acme/account.conf
 		echo -e "CX_Key='$acme_xns_arg1'\nCX_Secret='$acme_xns_arg2'" >> /koolshare/acme/account.conf
 		dnsapi=dns_cx
+		;;
+	4)
+		# cloudflare
+		echo_date 使用CloudFlare接口申请证书... >> $LOGFILE
+		sed -i '/CF_Key/d' /koolshare/acme/account.conf
+		sed -i '/CF_Email/d' /koolshare/acme/account.conf
+		echo -e "CF_Key='$acme_cf_arg1'\nCF_Email='$acme_cf_arg2'" >> /koolshare/acme/account.conf
+		dnsapi=dns_cf
+		;;
+	5)
+		# godaddy
+		echo_date 使用GoDaddy接口申请证书... >> $LOGFILE
+		sed -i '/GD_Key/d' /koolshare/acme/account.conf
+		sed -i '/GD_Secret/d' /koolshare/acme/account.conf
+		echo -e "GD_Key='$acme_gd_arg1'\nGD_Secret='$acme_gd_arg2'" >> /koolshare/acme/account.conf
+		dnsapi=dns_cf
 		;;
 	esac
 	sleep 1

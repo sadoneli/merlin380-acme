@@ -1,13 +1,18 @@
 Koolshare Asuswrt-Merlin Let's Encrypt Changelog
 ===========================================
-1.6 - 1.7
-   - fix	脚本问题
+2.3
+   - add	增加CloudFlare和GoDaddy支持；
+   - update	优化web；
+   - update	更新acme.sh 到v2.7.9。
+
+1.6 - 2.2
+   - fix	修复一系列问题。
 
 1.5
-   - fix	修复日志不显示
+   - fix	修复日志不显示。
 
 1.1 - 1.4
    - update	一些小的调整。
 
 1.0
-   - add	添加Let's Encrypt插件
+   - add	添加Let's Encrypt插件。
