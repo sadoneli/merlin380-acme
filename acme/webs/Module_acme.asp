@@ -537,14 +537,14 @@ function reload_Soft_Center() {
 													</td>
 												</tr>
 												<tr id="acme_gd_arg1_tr" style="display: none;">
-													<th>CloudFlare Key</th>
+													<th>GoDaddy Key</th>
 													<td>
 														<input style="width:300px;background-image: none;background-color: #576d73;border:1px solid gray" type="password" class="input_ss_table" id="acme_gd_arg1" name="acme_gd_arg1" autocomplete="new-password" autocorrect="off" autocapitalize="off" maxlength="100"
 														value="" onBlur="switchType(this, false);" onFocus="switchType(this, true);">
 													</td>
 												</tr>
 												<tr id="acme_gd_arg2_tr" style="display: none;">
-													<th>CloudFlare Email</th>
+													<th>GoDaddy Secret</th>
 													<td>
 														<input style="width:300px;background-image: none;background-color: #576d73;border:1px solid gray" type="password" class="input_ss_table" id="acme_gd_arg2" name="acme_gd_arg2" autocomplete="new-password" autocorrect="off" autocapitalize="off" maxlength="100"
 														value="" onBlur="switchType(this, false);" onFocus="switchType(this, true);">

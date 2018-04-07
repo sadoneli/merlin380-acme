@@ -1,6 +1,6 @@
 Koolshare Asuswrt-Merlin Let's Encrypt Changelog
 ===========================================
-2.3
+2.3 - 2.4
    - add	增加CloudFlare和GoDaddy支持；
    - update	优化web；
    - update	更新acme.sh 到v2.7.9。
