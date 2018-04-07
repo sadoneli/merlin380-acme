@@ -1,5 +1,8 @@
 Koolshare Asuswrt-Merlin Let's Encrypt Changelog
 ===========================================
+2.5
+   - fix	修复一些文字错误。
+
 2.3 - 2.4
    - add	增加CloudFlare和GoDaddy支持；
    - update	优化web；

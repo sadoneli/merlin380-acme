@@ -133,6 +133,7 @@ start)
 			fi
 		else
 			logger "$acme_domain证书未生成或者生成的证书有问题，清理相关残留并关闭插件！"
+			cd $acme_root
 			rm -rf "$acme_domain" > /dev/null 2>&1
 			rm -rf http.header > /dev/null 2>&1
 			dbus set acme_enable="0"
@@ -222,7 +223,7 @@ start)
 		echo_date 定时更新任务...>> $LOGFILE
 		del_cron
 		echo_date 关闭本插件！>> $LOGFILE
-		dbus set acme_enbale="0"
+		dbus set acme_enable="0"
 	fi
 	echo "" >> $LOGFILE
 	echo XU6J03M6 >> $LOGFILE
