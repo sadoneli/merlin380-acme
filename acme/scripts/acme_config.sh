@@ -74,6 +74,13 @@ install_aicloud_cert(){
 
 force_renew(){
 	$acme_root/acme.sh --cron --force --home $acme_root
+	if [ "$?" == "1" ];then
+		echo_date 强制更新失败！！ >> $LOGFILE
+	else
+		echo_date 强制更新成功！！ >> $LOGFILE
+		install_aicloud_cert
+		install_cert
+	fi
 }
 
 del_all_cert(){
@@ -94,8 +101,10 @@ del_cron(){
 check_md5(){
 	md5sum_cer_jffs=$(md5sum /jffs/ssl/cert.pem | sed 's/ /\n/g'| sed -n 1p)
 	md5sum_cer_acme=$(md5sum "$acme_domain/fullchain.cer" | sed 's/ /\n/g'| sed -n 1p)
+	md5sum_cer_etc=$(md5sum "$acme_domain/fullchain.cer" | sed 's/ /\n/g'| sed -n 1p)
 	md5sum_key_jffs=$(md5sum /jffs/ssl/key.pem | sed 's/ /\n/g'| sed -n 1p)
-	md5sum_key_acme=$(md5sum "$acme_domain/$acme_domain.key" | sed 's/ /\n/g'| sed -n 1p)	
+	md5sum_key_acme=$(md5sum "$acme_domain/$acme_domain.key" | sed 's/ /\n/g'| sed -n 1p)
+	md5sum_key_etc=$(md5sum "$acme_domain/$acme_domain.key" | sed 's/ /\n/g'| sed -n 1p)
 }
 
 check_cert(){
@@ -123,6 +132,7 @@ apply_now(){
 		echo_date 安装证书会重启路由器web服务，安装完成后需要重新登录路由器 >> $LOGFILE
 		echo_date 安装中，，，请等待页面自动刷新！ >> $LOGFILE
 		echo XU6J03M7 >> $LOGFILE
+		install_aicloud_cert
 		install_cert
 	fi
 }
@@ -142,8 +152,8 @@ start)
 			else
 				logger "检测到Let's Encrypt插件开启，但是证书未正确安装！"
 				logger "安装证书并添加证书更新定时任务！"
-				install_cert
 				add_cron
+				install_cert
 			fi
 		else
 			logger "$acme_domain证书未生成或者生成的证书有问题，清理相关残留并关闭插件！"
@@ -172,11 +182,12 @@ start)
 				if [ "$acme_subdomain" == "$SUB" ];then
 					# 对应你个二级域名申请过了，检测是否安装了
 					check_md5
+					# HTTPD
 					if [ "$md5sum_cer_jffs"x = "$md5sum_cer_acme"x ] && [ "$md5sum_key_jffs"x = "$md5sum_key_acme"x ];then
 						#安装了，检测定时任务
 						echo_date 检测到已经为【$acme_subdomain.$acme_domain，$acme_domain】申请了证书并且正确安装，跳过！>> $LOGFILE
 						cronjob=`cru l | grep acme_renew`
-						if [ "$cronjob" ];then
+						if [ -n "$cronjob" ];then
 							#有定时任务
 							echo_date 检测到【$acme_subdomain.$acme_domain，$acme_domain】证书自动更新定时任务正常，跳过！>> $LOGFILE
 						else
@@ -195,9 +206,21 @@ start)
 						echo_date 安装证书会重启路由器web服务，安装完成后需要重新登录路由器 >> $LOGFILE
 						echo_date 安装中，，，请等待页面自动刷新！ >> $LOGFILE
 						echo XU6J03M7 >> $LOGFILE
-						install_aicloud_cert
 						install_cert
 					fi
+					# AICLOUD
+					if [ "$md5sum_cer_etc"x = "$md5sum_cer_acme"x ] && [ "$md5sum_key_etc"x = "$md5sum_key_acme"x ];then
+						#安装了，检测定时任务
+						cronjob=`cru l | grep acme_renew`
+						if [ -z "$cronjob" ];then
+							add_cron
+						fi
+					else
+						#申请过了，但是没有安装
+						add_cron >> $LOGFILE
+						echo_date 为Aicloud安装证书！ >> $LOGFILE
+						install_aicloud_cert
+					fi					
 				else
 					# 对应你个二级域名没申请过
 					# 删除主域名文件夹并申请更新的
