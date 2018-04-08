@@ -1,6 +1,9 @@
 Koolshare Asuswrt-Merlin Let's Encrypt Changelog
 ===========================================
-2.6
+2.9
+   - add	修复Aicloud重启问题
+
+2.6 - 2.8
    - add	添加替换Aicloud证书
 
 2.5

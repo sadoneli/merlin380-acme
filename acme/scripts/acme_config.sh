@@ -62,7 +62,7 @@ install_cert(){
 
 install_aicloud_cert(){
 	# install to /tmp/etc for aicloud
-	aicloud_enable=`mvram get aicloud_enable`
+	aicloud_enable=`nvram get aicloud_enable`
 	./acme.sh --home "$acme_root" --installcert -d $acme_domain --keypath /tmp/etc/key.pem --fullchainpath /tmp/etc/cert.pem
 	cat /tmp/etc/key.pem > /tmp/etc/server.pem
 	echo "" \ >> /etc/server.pem
