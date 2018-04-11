@@ -2,8 +2,8 @@
     "build_date": "2018-04-06_16:12:15", 
     "description": "自动部署SSL证书", 
     "home_url": "Module_acme.asp", 
-    "md5": "973b7e080bab00a48b610bcf1b60f39d", 
+    "md5": "01d8bf6761e3fb48c124238b8e6f6549", 
     "module": "acme", 
     "title": "Lets Encrypt", 
-    "version": "2.9"
+    "version": "3.0"
 }

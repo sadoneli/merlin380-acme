@@ -46,7 +46,7 @@ start_issue(){
 		sed -i '/GD_Key/d' /koolshare/acme/account.conf
 		sed -i '/GD_Secret/d' /koolshare/acme/account.conf
 		echo -e "GD_Key='$acme_gd_arg1'\nGD_Secret='$acme_gd_arg2'" >> /koolshare/acme/account.conf
-		dnsapi=dns_cf
+		dnsapi=dns_gd
 		;;
 	esac
 	sleep 1

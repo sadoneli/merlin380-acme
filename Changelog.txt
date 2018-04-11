@@ -1,5 +1,8 @@
 Koolshare Asuswrt-Merlin Let's Encrypt Changelog
 ===========================================
+3.0
+   - add	修复godaddy接口
+   
 2.9
    - add	修复Aicloud重启问题
 
