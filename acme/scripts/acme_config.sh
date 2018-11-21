@@ -60,6 +60,24 @@ install_cert(){
 	./acme.sh --home "$acme_root" --installcert -d $acme_domain --keypath /jffs/ssl/key.pem --fullchainpath /jffs/ssl/cert.pem --reloadcmd "service restart_httpd"
 }
 
+apply_installed_hook(){
+	if [ -d "/koolshare/acme/scripts" ];then
+		echo_date 触发自定义脚本... >> $LOGFILE
+		for i in `ls /koolshare/acme/scripts`; do
+			if [ -x "/koolshare/acme/scripts/$i" ]; then
+				sh /koolshare/acme/scripts/$i
+				if [ $? == 0 ]; then
+					echo_date "脚本/koolshare/acme/scripts/${i}执行成功！" >> $LOGFILE
+				else
+					echo_date "脚本/koolshare/acme/scripts/${i}执行失败！" >> $LOGFILE
+				fi
+			else
+				echo_date "脚本/koolshare/acme/scripts/${i}没有权限跳过！" >> $LOGFILE
+			fi
+		done
+	fi
+}
+
 install_aicloud_cert(){
 	# install to /tmp/etc for aicloud
 	aicloud_enable=`nvram get aicloud_enable`
@@ -80,6 +98,7 @@ force_renew(){
 		echo_date 强制更新成功！！ >> $LOGFILE
 		install_aicloud_cert
 		install_cert
+		apply_installed_hook
 	fi
 }
 
@@ -134,10 +153,14 @@ apply_now(){
 		echo XU6J03M7 >> $LOGFILE
 		install_aicloud_cert
 		install_cert
+		apply_installed_hook
 	fi
 }
 
 case $1 in
+hook_test)
+	apply_installed_hook
+;;
 start)
 	# start by init
 	if [ "$acme_enable" == "1" ];then
@@ -154,6 +177,7 @@ start)
 				logger "安装证书并添加证书更新定时任务！"
 				add_cron
 				install_cert
+				apply_installed_hook
 			fi
 		else
 			logger "$acme_domain证书未生成或者生成的证书有问题，清理相关残留并关闭插件！"
@@ -207,6 +231,7 @@ start)
 						echo_date 安装中，，，请等待页面自动刷新！ >> $LOGFILE
 						echo XU6J03M7 >> $LOGFILE
 						install_cert
+						apply_installed_hook
 					fi
 					# AICLOUD
 					if [ "$md5sum_cer_etc"x = "$md5sum_cer_acme"x ] && [ "$md5sum_key_etc"x = "$md5sum_key_acme"x ];then
